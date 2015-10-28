@@ -13,7 +13,6 @@ public class Philosoph {
     // (rave)
     // repeat
     // horst
-    // test
 
     private ReentrantLock _lock = new ReentrantLock(true);
 
