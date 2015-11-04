@@ -4,23 +4,35 @@ import java.util.List;
 public class Table {
     final List<Seat> seats;
     final List<Fork> forks;
-    int freeSeats;
+    final int seatSize;
 
     public Table(List seats, List forks) {
         this.seats = seats;
         this.forks = forks;
-        freeSeats = seats.size();
+        seatSize = seats.size();
     }
 
     public Seat takeSeat(){
-        Seat freeSeat = null;
+        Seat freeSeat = seats.get(0);
         try{
-
+            for(int i = 0; i < seats.size(); i++){
+                Seat currentSeat = seats.get(i);
+                // If current seat is free, check left seat then right seat(add seatsize to avoid -1 return.
+                if(!currentSeat.lock.isLocked()
+                        && !seats.get((i+1)%seatSize).lock.isLocked()
+                        && !seats.get((i - 1 + seatSize) % seatSize).lock.isLocked()){
+                freeSeat = currentSeat;
+                    break;
+                }
+                if(freeSeat.lock.getQueueLength() > currentSeat.lock.getQueueLength()){
+                    freeSeat = currentSeat;
+                }
+            }
+            freeSeat.lock.lock();
         }
         finally {
 
         }
-
         return freeSeat;
     }
 }

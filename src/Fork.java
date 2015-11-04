@@ -4,12 +4,10 @@ public class Fork extends Lockable {
         return lock.tryLock();
     }
 
-    public boolean drop() {
+    public void drop() {
         try {
             lock.unlock();
-            return true;
         } catch (Exception e) {
-            return false;
         }
     }
 }

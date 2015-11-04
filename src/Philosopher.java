@@ -14,27 +14,37 @@ public class Philosopher extends Thread {
     // repeat
     // horst
 
-    private final int eatTime = 1000;
-    private final int meditateTime = 1000;
-    private final int sleepTime = 10000;
+    private final int eatTime = 1;
+    private final int meditateTime = 5;
+    private final int sleepTime = 10;
     private static int event=0;
 
     private int id;
     private Seat seat;
+    private Table table;
     private static final int maxMealsEaten = 3;
     private int mealsEaten;
+    private int totalMealsEaten;
 
-    public Philosopher(int id) {
+    public Philosopher(int id, Table table) {
         this.id = id;
+        this.table = table;
     }
 
     public void run() {
         while (true) {
 
-            if (takeSeat()) continue;
+            takeSeat();
             // take right fork
+            do {
+                seat.dropRight();
+                seat.takeRightFork();
+            }while (!seat.takeLeftFork());
             // take left fork
             eat();
+            seat.dropLeft();
+            seat.dropRight();
+            seat.standUp();
             if (mealsEaten == maxMealsEaten) goToSleep();
             else meditate();
         }
@@ -42,8 +52,9 @@ public class Philosopher extends Thread {
 
     private void eat() {
         try {
-            postMsg("eating for " + eatTime);
+            postMsg("eating for " + eatTime + "on Seat: " + seat.id);
             mealsEaten++;
+            totalMealsEaten++;
             Thread.sleep(eatTime);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -54,6 +65,7 @@ public class Philosopher extends Thread {
         try {
             postMsg("sleeping for " + sleepTime);
             Thread.sleep(sleepTime);
+            mealsEaten = 0;
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -69,12 +81,12 @@ public class Philosopher extends Thread {
     }
 
     private void postMsg(String str) {
-        System.out.printf("%d %d Philosopher %d %s\n",
+        System.out.printf("Time: %d Event: %d Philosopher %d %s\n",
                 System.currentTimeMillis(), ++event, id, str);
     }
 
-    private boolean takeSeat() {
-        return false;
+    private void takeSeat() {
+        seat = table.takeSeat();
     }
 
 }
