@@ -1,8 +1,5 @@
 import java.util.concurrent.locks.ReentrantLock;
 
-/**
- * Created by Chris on 28.10.2015.
- */
 public class Seat {
 
     private final ReentrantLock lock = new ReentrantLock();

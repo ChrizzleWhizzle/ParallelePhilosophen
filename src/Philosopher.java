@@ -1,12 +1,12 @@
 import java.util.concurrent.locks.ReentrantLock;
 
-public class Philosoph extends Thread {
+public class Philosopher extends Thread {
     // Process:
     // start with meditate
     // if hungry go to dining room
     // take a free seat
-    // take right fork (only one Philosoph can take the fork at time)
-    // take left fork (only one Philosoph can take the fork at time)
+    // take right fork (only one Philosopher can take the fork at time)
+    // take left fork (only one Philosopher can take the fork at time)
     // eat
     // go back to meditate
     // after 3 meals go to sleep
@@ -25,7 +25,7 @@ public class Philosoph extends Thread {
     private static final int maxMealsEaten = 3;
     private int mealsEaten;
 
-    public Philosoph(int id) {
+    public Philosopher(int id) {
         this.id = id;
     }
 
