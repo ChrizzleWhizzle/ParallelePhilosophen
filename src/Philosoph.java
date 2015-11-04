@@ -32,7 +32,7 @@ public class Philosoph extends Thread {
     public void run() {
         while (true) {
 
-            if (!takeSeat()) continue;
+            if (takeSeat()) continue;
             // take right fork
             // take left fork
             eat();
