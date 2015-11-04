@@ -1,6 +1,15 @@
-import java.util.concurrent.locks.ReentrantLock;
+public class Fork extends Lockable {
 
-public class Fork {
-    private final ReentrantLock lock = new ReentrantLock();
+    public boolean take() {
+        return lock.tryLock();
+    }
 
+    public boolean drop() {
+        try {
+            lock.unlock();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }

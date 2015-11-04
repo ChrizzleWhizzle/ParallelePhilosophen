@@ -1,8 +1,5 @@
-import java.util.concurrent.locks.ReentrantLock;
+public class Seat extends Lockable {
 
-public class Seat {
-
-    private final ReentrantLock lock = new ReentrantLock();
     private Fork leftFork;
     private Fork rightFork;
 

@@ -14,7 +14,6 @@ public class Philosopher extends Thread {
     // repeat
     // horst
 
-    private ReentrantLock _lock = new ReentrantLock(true);
     private final int eatTime = 1000;
     private final int meditateTime = 1000;
     private final int sleepTime = 10000;
