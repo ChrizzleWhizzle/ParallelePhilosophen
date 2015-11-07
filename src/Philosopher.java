@@ -77,7 +77,7 @@ public class Philosopher extends Thread {
         //        System.currentTimeMillis(), ++event, id, str);
     }
 
-    private void takeSeat() {
+    private void takeSeat() throws InterruptedException{
         seat = table.takeSeat();
     }
 

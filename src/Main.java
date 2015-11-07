@@ -8,7 +8,7 @@ public class Main {
     public static void main(String[] args){
         int nForks = 10;
         int nSeats = 10;
-        int nPhilosophers = 50;
+        int nPhilosophers = 500;
         List<Seat> seatList = new ArrayList<>(nSeats);
         List<Fork> forkList = new ArrayList<>(nForks);
         List<Philosopher> philList = new ArrayList<>(nPhilosophers);
@@ -37,7 +37,7 @@ public class Main {
         System.out.println("started");
 
         try {
-            Thread.sleep(10000);
+            Thread.sleep(60000);
         } catch (InterruptedException e) {
         }
 

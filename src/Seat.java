@@ -12,15 +12,16 @@ public class Seat extends Lockable {
         this.id = id;
     }
 
-    public void takeRightFork(){
+    public void takeRightFork() throws InterruptedException{
         while(!rightFork.take()){
-            try {
+//            try {
                 Thread.sleep(new Random().nextInt(5));
-            } catch (InterruptedException e) {
-            }
+//            } catch (InterruptedException e) {
+//                return;
+//            }
         }
     }
-    public boolean takeLeftFork(){
+    public boolean takeLeftFork() throws InterruptedException{
         return leftFork.take();
     }
     public void dropRight(){

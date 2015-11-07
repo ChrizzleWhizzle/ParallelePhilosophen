@@ -12,7 +12,7 @@ public class Table {
         seatSize = seats.size();
     }
 
-    public Seat takeSeat(){
+    public Seat takeSeat() throws  InterruptedException{
         Seat freeSeat = seats.get(0);
         try{
             for(int i = 0; i < seats.size(); i++){
@@ -28,7 +28,7 @@ public class Table {
                     freeSeat = currentSeat;
                 }
             }
-            freeSeat.lock.lock();
+            freeSeat.lock.lockInterruptibly();
         }
         finally {
 
