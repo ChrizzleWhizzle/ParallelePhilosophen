@@ -42,17 +42,19 @@ public class Main {
             p.start();
             philList.add(p);
         }
+        Master master = new Master(philList, 10);
+        master.start();
         System.out.println("started");
 
         try {
-            Thread.sleep(60000);
+            Thread.sleep(10000);
         } catch (InterruptedException e) {
         }
 
         System.out.println("Killing all Philosophers");
 
         philList.forEach(p -> p.interrupt());
-
+        master.interrupt();
         System.out.println("Joining all Philosopher-Threads");
         long sumMealsEaten = 0;
         int minEaten = Integer.MAX_VALUE;
@@ -61,7 +63,7 @@ public class Main {
             try {
 
                 p.join();
-                System.out.println(p);
+                System.out.println(p.toString() + p.totalMealsEaten);
             } catch (InterruptedException e) {
             }finally {
                 minEaten = Math.min(minEaten,p.totalMealsEaten);

@@ -14,7 +14,7 @@ public class Philosopher extends Thread {
     // repeat
     // horst
 
-    private PhilosopherState state;
+    public PhilosopherState state;
     private static int event=0;
 
     private int id;
@@ -33,24 +33,27 @@ public class Philosopher extends Thread {
     public void run() {
         try {
             while (!Thread.currentThread().isInterrupted()) {
-
-                takeSeat();
-                // take forks
-                while(!hasBothForks) {
-                    seat.takeRightFork();
-                    if(!seat.takeLeftFork()){
-                        seat.dropRight();
+                if (state.isBanned()) {
+                    sleepBan();
+                } else {
+                    takeSeat();
+                    // take forks
+                    while (!hasBothForks) {
+                        seat.takeRightFork();
+                        if (!seat.takeLeftFork()) {
+                            seat.dropRight();
+                        } else {
+                            hasBothForks = true;
+                        }
                     }
-                    else {
-                        hasBothForks =true;
-                    }
-                }; //boolean hasbothforks
-                eat();
-                seat.dropLeft();
-                seat.dropRight();
-                seat.standUp();
-                if (mealsEaten == ) goToSleep();
-                else meditate();
+                    ; //boolean hasbothforks
+                    eat();
+                    seat.dropLeft();
+                    seat.dropRight();
+                    seat.standUp();
+                    meditate();
+                    if (mealsEaten == state.getMaxMealsEaten()) goToSleep();
+                }
             }
         } catch (Exception e) {
             return;
@@ -58,25 +61,25 @@ public class Philosopher extends Thread {
     }
 
     private void eat() throws InterruptedException {
-            postMsg("eating for " + eatTime + "on Seat: " + seat.id);
+            postMsg("eating for " + state.getEatTime() + "on Seat: " + seat.id);
             mealsEaten++;
             totalMealsEaten++;
-            Thread.sleep(eatTime);
+            Thread.sleep(state.getEatTime());
     }
 
     private void goToSleep() throws InterruptedException {
-            postMsg("sleeping for " + sleepTime);
-            Thread.sleep(sleepTime);
+            postMsg("sleeping for " + state.getSleepTime());
+            Thread.sleep(state.getSleepTime());
             mealsEaten = 0;
     }
 
     private void meditate() throws InterruptedException {
-            postMsg("meditating for " + meditateTime);
-            Thread.sleep(meditateTime);
+            postMsg("meditating for " + state.getMeditateTime());
+            Thread.sleep(state.getMeditateTime());
     }
 
     private void postMsg(String str) {
-        System.out.printf("Time: %d Event: %d Philosopher %d %s\n",
+        System.out.printf("Time: %d Event: %d Philosopher %d %s " + state.name() + "\n",
                 System.currentTimeMillis(), ++event, id, str);
     }
 
@@ -84,4 +87,8 @@ public class Philosopher extends Thread {
         seat = table.takeSeat();
     }
 
+    private void sleepBan() throws InterruptedException{
+        postMsg("I have been banned!!!!!");
+        sleep(5);
+    }
 }
