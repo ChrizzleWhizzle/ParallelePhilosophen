@@ -15,7 +15,7 @@ public class Table {
     public Seat takeSeat() throws  InterruptedException{
         Seat freeSeat = seats.get(0);
         try{
-            for(int i = 0; i < seats.size(); i++){
+            for(int i = 0; i < seats.size(); i++){ //todo reihenfolge zufällig modulo
                 Seat currentSeat = seats.get(i);
                 // If current seat is free, check left seat then right seat(add seatsize to avoid -1 return.
                 if(!currentSeat.lock.isLocked()

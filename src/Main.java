@@ -6,9 +6,9 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args){
-        int nForks = 10;
-        int nSeats = 10;
-        int nPhilosophers = 500;
+        int nForks = 5;
+        int nSeats = 5;
+        int nPhilosophers = 5;
         List<Seat> seatList = new ArrayList<>(nSeats);
         List<Fork> forkList = new ArrayList<>(nForks);
         List<Philosopher> philList = new ArrayList<>(nPhilosophers);
@@ -47,6 +47,8 @@ public class Main {
 
         System.out.println("Joining all Philosopher-Threads");
         long sumMealsEaten = 0;
+        int minEaten = Integer.MAX_VALUE;
+        int maxEaten = 0;
         for (Philosopher p : philList) {
             try {
 
@@ -54,11 +56,12 @@ public class Main {
                 System.out.println(p);
             } catch (InterruptedException e) {
             }finally {
-
+                minEaten = Math.min(minEaten,p.totalMealsEaten);
+                maxEaten = Math.max(maxEaten,p.totalMealsEaten);
                 sumMealsEaten += p.totalMealsEaten;
             }
         }
 
-        System.out.println("Total Meals eaten: " + sumMealsEaten);
+        System.out.println("Total Meals eaten: " + sumMealsEaten + " max: " + maxEaten + " min: "+ minEaten);
     }
 }

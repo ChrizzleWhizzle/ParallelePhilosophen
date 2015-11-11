@@ -25,6 +25,7 @@ public class Philosopher extends Thread {
     private static final int maxMealsEaten = 3;
     private int mealsEaten;
     public int totalMealsEaten;
+    private boolean hasBothForks = false;
 
     public Philosopher(int id, Table table) {
         this.id = id;
@@ -36,12 +37,16 @@ public class Philosopher extends Thread {
             while (!Thread.currentThread().isInterrupted()) {
 
                 takeSeat();
-                // take right fork
-                do {
-                    seat.dropRight();
+                // take forks
+                while(!hasBothForks) {
                     seat.takeRightFork();
-                }while (!seat.takeLeftFork());
-                // take left fork
+                    if(!seat.takeLeftFork()){
+                        seat.dropRight();
+                    }
+                    else {
+                        hasBothForks =true;
+                    }
+                }; //boolean hasbothforks
                 eat();
                 seat.dropLeft();
                 seat.dropRight();
@@ -73,8 +78,8 @@ public class Philosopher extends Thread {
     }
 
     private void postMsg(String str) {
-        //System.out.printf("Time: %d Event: %d Philosopher %d %s\n",
-        //        System.currentTimeMillis(), ++event, id, str);
+        System.out.printf("Time: %d Event: %d Philosopher %d %s\n",
+                System.currentTimeMillis(), ++event, id, str);
     }
 
     private void takeSeat() throws InterruptedException{
