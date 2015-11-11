@@ -14,22 +14,20 @@ public class Philosopher extends Thread {
     // repeat
     // horst
 
-    private final int eatTime = 1;
-    private final int meditateTime = 5;
-    private final int sleepTime = 10;
+    private PhilosopherState state;
     private static int event=0;
 
     private int id;
     private Seat seat;
     private Table table;
-    private static final int maxMealsEaten = 3;
     private int mealsEaten;
     public int totalMealsEaten;
     private boolean hasBothForks = false;
 
-    public Philosopher(int id, Table table) {
+    public Philosopher(int id, Table table, PhilosopherState state) {
         this.id = id;
         this.table = table;
+        this.state = state;
     }
 
     public void run() {
@@ -51,7 +49,7 @@ public class Philosopher extends Thread {
                 seat.dropLeft();
                 seat.dropRight();
                 seat.standUp();
-                if (mealsEaten == maxMealsEaten) goToSleep();
+                if (mealsEaten == ) goToSleep();
                 else meditate();
             }
         } catch (Exception e) {

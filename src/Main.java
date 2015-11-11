@@ -9,6 +9,7 @@ public class Main {
         int nForks = 5;
         int nSeats = 5;
         int nPhilosophers = 5;
+        int nHungryPhils = 2;
         List<Seat> seatList = new ArrayList<>(nSeats);
         List<Fork> forkList = new ArrayList<>(nForks);
         List<Philosopher> philList = new ArrayList<>(nPhilosophers);
@@ -30,7 +31,14 @@ public class Main {
         //Create table
         Table table = new Table(seatList,forkList);
         for(int i = 0; i < nPhilosophers; i++){
-            Philosopher p = new Philosopher(i + 1, table);
+            Philosopher p;
+            if(nHungryPhils > 0){
+                p = new Philosopher(i + 1, table,PhilosopherState.HUNGRY);
+                nHungryPhils--;
+            }
+            else {
+                p = new Philosopher(i + 1, table,PhilosopherState.NORMAL);
+            }
             p.start();
             philList.add(p);
         }
