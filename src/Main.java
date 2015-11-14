@@ -49,7 +49,7 @@ public class Main {
         System.out.println("started");
 
         try {
-            Thread.sleep(10000);
+            Thread.sleep(60000);
         } catch (InterruptedException e) {
         }
 
