@@ -39,11 +39,13 @@ public class Main {
             else {
                 p = new Philosopher(i + 1, table,PhilosopherState.NORMAL);
             }
-            p.start();
             philList.add(p);
         }
         Master master = new Master(philList, 10);
-        master.start();
+        table.addMaster(master);
+
+        philList.forEach(p -> p.start());
+        //master.start();
         System.out.println("started");
 
         try {

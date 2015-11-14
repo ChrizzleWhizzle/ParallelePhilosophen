@@ -4,6 +4,7 @@ import java.util.List;
 public class Table {
     final List<Seat> seats;
     final List<Fork> forks;
+    Master master;
     final int seatSize;
 
     public Table(List seats, List forks) {
@@ -11,6 +12,7 @@ public class Table {
         this.forks = forks;
         seatSize = seats.size();
     }
+    public void addMaster(Master m) { this.master = m; }
 
     public Seat takeSeat() throws  InterruptedException{
         Seat freeSeat = seats.get(0);

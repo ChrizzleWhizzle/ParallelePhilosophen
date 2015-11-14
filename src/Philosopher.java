@@ -33,9 +33,7 @@ public class Philosopher extends Thread {
     public void run() {
         try {
             while (!Thread.currentThread().isInterrupted()) {
-                if (state.isBanned()) {
-                    sleepBan();
-                } else {
+                if (table.master.isAllowedToEat(this)) {
                     takeSeat();
                     // take forks
                     while (!hasBothForks) {
@@ -53,6 +51,8 @@ public class Philosopher extends Thread {
                     seat.standUp();
                     meditate();
                     if (mealsEaten == state.getMaxMealsEaten()) goToSleep();
+                } else {
+                    sleepBan();
                 }
             }
         } catch (Exception e) {
@@ -74,7 +74,7 @@ public class Philosopher extends Thread {
     }
 
     private void meditate() throws InterruptedException {
-            postMsg("meditating for " + state.getMeditateTime());
+        postMsg("meditating for " + state.getMeditateTime());
             Thread.sleep(state.getMeditateTime());
     }
 

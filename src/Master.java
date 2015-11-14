@@ -23,7 +23,7 @@ public class Master extends Thread{
                     if(p.totalMealsEaten > (minEaten + difference)){
                         p.state.setBanned(true);
                     }
-                    else if(p.totalMealsEaten < (minEaten + difference)){
+                    else {
                         p.state.setBanned(false);
                         //System.out.println("notify phil " + p.toString());
                     }
@@ -34,5 +34,24 @@ public class Master extends Thread{
         } catch (Exception e) {
             return;
         }
+    }
+
+    public boolean isAllowedToEat(Philosopher phil) {
+        int minEaten = Integer.MAX_VALUE;
+        int maxEaten = 0;
+
+        boolean allowedToEat = true;
+        for(Philosopher p: philList){
+            if (p == phil) continue;
+            minEaten = Math.min(minEaten,p.totalMealsEaten);
+            if(phil.totalMealsEaten > (minEaten + difference)){
+                allowedToEat = false;
+                break;
+            }
+            //maxEaten = Math.max(maxEaten, p.totalMealsEaten);
+        }
+        //minEaten = maxEaten;
+
+        return allowedToEat;
     }
 }
